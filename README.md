@@ -1,4 +1,4 @@
-﻿# self-evolution
+# self-evolution
 
 > 复盘沉淀 skill：快速模式 3 问自检（任务完成自动触发）；全面模式 11 维度深度分析 + 知识层升级（experience → pattern → heuristic → policy）+ 行动项 P0/P1/P2/P3 分流。
 

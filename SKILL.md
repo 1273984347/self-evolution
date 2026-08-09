@@ -1,4 +1,4 @@
-﻿---
+---
 name: self-evolution
 description: >
   Runs retro after task completion. Quick mode = 3-question self-check. Full mode = 11-dimension deep
