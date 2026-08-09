@@ -9,6 +9,9 @@
 > A retro & sedimentation skill: quick mode (3-question self-check, auto-triggered before every commit) and full mode (11-dimension deep analysis + knowledge-layer upgrade experience → pattern → heuristic → policy + P0-P3 action-item triage).
 
 [![license](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)
+[![CI](https://github.com/1273984347/self-evolution/actions/workflows/validate.yml/badge.svg)](https://github.com/1273984347/self-evolution/actions/workflows/validate.yml)
+[![skills-ref](https://img.shields.io/badge/skills--ref-passing-2ea44f)](https://agentskills.io)
+[![version](https://img.shields.io/badge/version-v1.0.0-1d76db)](https://github.com/1273984347/self-evolution/releases/latest)
 
 ## What problem it solves
 
