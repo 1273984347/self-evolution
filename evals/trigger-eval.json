@@ -1,0 +1,53 @@
+{
+  "skill_name": "self-evolution",
+  "queries": [
+    {
+      "query": "帮我做周汇总，全面复盘这个月的工作",
+      "should_trigger": true
+    },
+    {
+      "query": "跑一下复盘，11 维度那种",
+      "should_trigger": true
+    },
+    {
+      "query": "这个 session 学到了新方法，帮我 retro 一下",
+      "should_trigger": true
+    },
+    {
+      "query": "任务完成了，自动跑快速复盘",
+      "should_trigger": true
+    },
+    {
+      "query": "帮我用 self-evolution 沉淀经验",
+      "should_trigger": true
+    },
+    {
+      "query": "我刚批量修了 15 个文件，跑 deep review 复检",
+      "should_trigger": false
+    },
+    {
+      "query": "这个 session 该收尾了，帮我整理文档和记忆",
+      "should_trigger": false
+    },
+    {
+      "query": "这个函数报错了，帮我看看",
+      "should_trigger": false
+    },
+    {
+      "query": "帮我写个 hello world",
+      "should_trigger": false
+    },
+    {
+      "query": "解释一下什么是 HTTP 缓存",
+      "should_trigger": false
+    },
+    {
+      "query": "把这段 JSON 转成 YAML",
+      "should_trigger": false
+    },
+    {
+      "query": "文档和代码对不上了，帮我收尾核对",
+      "should_trigger": false
+    }
+  ]
+}

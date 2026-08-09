@@ -1,11 +1,13 @@
 ---
 name: self-evolution
-description: >
+description: >-
   Runs retro after task completion. Quick mode = 3-question self-check. Full mode = 11-dimension deep
-  analysis with knowledge upgrade and action-item triage. Invoke when the user says "全面复盘 / 周汇总 /
-  retro" or after task completion.
+  analysis with knowledge upgrade and action-item triage. Trigger when the user says "全面复盘 / 周汇总 /
+  retro" or after task completion — even without explicit keywords. Do not trigger for deep review of
+  written artifacts (use deep-review-loop) or session wrap-up (use mem-wrap-up).
   任务完成后的复盘 skill。快速模式 = 3 问自检；全面模式 = 11 维度深度分析 + 知识层升级 + 行动项分流。
-  用户说「全面复盘/周汇总/retro」或任务完成时使用。
+  用户说「全面复盘/周汇总/retro」或任务完成时触发（即使未点名）。
+  不触发：书面产物深度复检（用 deep-review-loop）、session 收尾（用 mem-wrap-up）。
 license: Apache-2.0
 compatibility: Agent-agnostic. Requires file read/write tools and a memory directory convention.
 metadata:
