@@ -29,6 +29,7 @@
 - **行动项分流**：P0/P1 立即执行、P2 等用户确认、P3 只记录
 - **单一事实源**：experience-log.md（权威源）→ experience-quickref.md（索引）→ retrospective.md（报告，不重复内容）
 - **多件套 sync verify**：报告生成后强制验证 5 件套全部同步，漏任一件 = 复盘未闭环
+- **经验捕获格式规范**：质量标准（好/差经验示例）+ 边界纪律（只写 3 文件、不越权做升级决策），见 [references/experience-capture-format.md](references/experience-capture-format.md)
 
 ## 安装
 
@@ -65,7 +66,7 @@ npx skills add https://github.com/1273984347/self-evolution
 
 ## 使用
 
-任务完成（git commit 前自动）→ 快速模式；用户说「全面复盘 / 周汇总 / retro」→ 全面模式。完整 11 维度模板见 [references/11-dimensions-template.md](references/11-dimensions-template.md)（按需加载，不占上下文）。
+任务完成（git commit 前自动）→ 快速模式；用户说「全面复盘 / 周汇总 / retro / 记住这个 / capture / 经验沉淀」→ 复盘或经验捕获。完整 11 维度模板见 [references/11-dimensions-template.md](references/11-dimensions-template.md)（按需加载，不占上下文）；快速模式写入格式与质量标准见 [references/experience-capture-format.md](references/experience-capture-format.md)。
 
 **怎么触发**（说这些就会跑起来）：
 
@@ -74,6 +75,7 @@ npx skills add https://github.com/1273984347/self-evolution
 全面复盘这个 session
 帮我做个周汇总
 retro 一下
+记住这个：JSON 解析失败要用 try-except 包一层
 ```
 
 ## MCP 接入（可选）

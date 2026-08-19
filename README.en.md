@@ -29,6 +29,7 @@ This skill hardens retro into a protocol: quick mode guarantees every task passe
 - **Action-item triage**: P0/P1 run immediately, P2 waits for confirmation, P3 recorded only
 - **Single source of truth**: experience-log.md (authoritative) → experience-quickref.md (index) → retrospective.md (report, no duplication)
 - **Multi-artifact sync verify**: after the report, force-verify all artifacts are in sync; one missing = retro not closed
+- **Experience capture format spec**: quality standard (good vs bad examples) + boundary discipline (write only 3 files, no upgrade decisions), see [references/experience-capture-format.md](references/experience-capture-format.md)
 
 ## Installation
 
@@ -65,7 +66,7 @@ npx skills add https://github.com/1273984347/self-evolution
 
 ## Usage
 
-Task complete (auto before git commit) → quick mode; user says "全面复盘 / 周汇总 / retro" → full mode. Full 11-dimension template: [references/11-dimensions-template.md](references/11-dimensions-template.md) (loaded on demand, no context overhead).
+Task complete (auto before git commit) → quick mode; user says "全面复盘 / 周汇总 / retro / 记住这个 / capture / 经验沉淀" → retro or experience capture. Full 11-dimension template: [references/11-dimensions-template.md](references/11-dimensions-template.md) (loaded on demand, no context overhead); quick-mode write format & quality standard: [references/experience-capture-format.md](references/experience-capture-format.md).
 
 **How to trigger** (say any of these):
 
@@ -74,6 +75,7 @@ The task is done — quick retro
 Full retro on this session
 Help me with a weekly summary
 Retro it
+Remember this: JSON parse failures should be wrapped in try-except
 ```
 
 ## MCP integration (optional)
