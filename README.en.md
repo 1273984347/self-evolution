@@ -28,7 +28,7 @@ This skill hardens retro into a protocol: quick mode guarantees every task passe
 - **Knowledge-layer upgrade chain**: experience → pattern (≥3 occurrences) → heuristic (success rate >80%) → policy (needs human confirmation) — always create new files, never overwrite
 - **Action-item triage**: P0/P1 run immediately, P2 waits for confirmation, P3 recorded only
 - **Single source of truth**: experience-log.md (authoritative) → experience-quickref.md (index) → retrospective.md (report, no duplication)
-- **Multi-artifact sync verify**: after the report, force-verify all artifacts are in sync; one missing = retro not closed
+- **Multi-artifact sync verify**: after the report, force-verify all 5 artifacts are in sync; one missing = retro not closed
 - **Experience capture format spec**: quality standard (good vs bad examples) + boundary discipline (write only 3 files, no upgrade decisions), see [references/experience-capture-format.md](references/experience-capture-format.md)
 
 ## Installation
