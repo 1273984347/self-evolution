@@ -72,6 +72,7 @@ metadata:
 - `<memory_root>` = agent 的 memory 根目录（如 TRAE `.trae-cn/memory`、Claude Code 的 projects 目录，或项目内 `.agent-memory`）
 - `<project-slug>` = 当前 workspace 对应的 memory 项目目录名（执行时按当前 cwd 映射）
 - `<date>` = 当日日期目录（`YYYYMMDD`）
+- `<skills_root>` = skill 安装目录（如 `.claude/skills`、`.trae-cn/skills` 或插件目录），执行时按当前环境映射
 
 ## 两种模式
 
@@ -85,6 +86,8 @@ metadata:
 ## 模式 A：快速复盘（任务完成后自动执行）
 
 每个任务完成时，在 git commit 之前执行。
+
+> **与整合版并用时**：若与 [agent-session-loop](https://github.com/1273984347/agent-session-loop)（审查→收尾→沉淀流水线）一起安装，触发与裁剪遵循整合版的场景裁剪规则（如纯调试 session 可标 `not-applicable`）；独立安装时按本节执行。
 
 ### 触发条件
 - 任务标记为 completed 时

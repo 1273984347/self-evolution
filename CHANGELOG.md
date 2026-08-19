@@ -2,6 +2,15 @@
 
 本文件记录 self-evolution 的版本演进，遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 风格。版本号与 `SKILL.md` 的 `metadata.version` 保持一致。
 
+## [Unreleased]
+
+### Fixed
+- 快速模式补「与 agent-session-loop 整合版并用时」的触发/裁剪协调声明
+- `<skills_root>` 占位符补路径约定定义
+
+### Added
+- scripts/fragment-lint.py 共享片段一致性 lint + CI 接入
+
 ## [1.0.0] - 2026-08-10 初始发布
 
 ### Added
