@@ -59,7 +59,7 @@ cp -r self-evolution <your-skills-dir>/self-evolution
 **Option C: skills.sh CLI (the npm of agents)**
 
 ```bash
-npm install -g @anthropic-ai/skills
+# npx downloads the CLI on first run; no global install needed
 npx skills add https://github.com/1273984347/self-evolution
 ```
 
