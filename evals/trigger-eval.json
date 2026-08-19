@@ -22,6 +22,18 @@
       "should_trigger": true
     },
     {
+      "query": "记住这个：JSON 解析失败用 try-except 包一层",
+      "should_trigger": true
+    },
+    {
+      "query": "刚才那个坑的经验帮我 capture 一下",
+      "should_trigger": true
+    },
+    {
+      "query": "帮我清理一下这个项目里的 node_modules",
+      "should_trigger": false
+    },
+    {
       "query": "我刚批量修了 15 个文件，跑 deep review 复检",
       "should_trigger": false
     },

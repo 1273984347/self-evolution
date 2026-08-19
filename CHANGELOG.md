@@ -9,6 +9,8 @@
 - `<skills_root>` 占位符补路径约定定义
 
 ### Added
+- references/experience-capture-format.md：经验写入格式规范（质量标准 / 边界纪律 / 手动触发 / 通用编号），从 vault 版 experience-capture skill 蒸馏
+- description 触发词扩展：记住这个 / capture / 经验沉淀（同步 trigger-eval 3 条查询）
 - scripts/fragment-lint.py 共享片段一致性 lint + CI 接入
 
 ## [1.0.0] - 2026-08-10 初始发布
