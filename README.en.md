@@ -101,8 +101,8 @@ This skill and MCP are **complementary, not dependent**: MCP provides external d
 |---|---|
 | SKILL.md version | 1.0.1 |
 | Agent Skills standard | Compatible ([agentskills.io](https://agentskills.io); frontmatter: name/description/license/metadata) |
-| Frontmatter validation | `skills-ref validate` (CI, see [.github/workflows/validate.yml](.github/workflows/validate.yml)) |
-| Runtime deps | No Python/Node scripts; needs file read/write + memory dir convention |
+| CI gate | Five steps: `skills-ref validate` + `python evals/validate.py` + `python evals/run_behavior.py` + `python scripts/version-lint.py` + `python scripts/fragment-lint.py` (see [.github/workflows/validate.yml](.github/workflows/validate.yml)) |
+| Runtime deps | Skill runtime: file read/write + memory dir convention; no subagent dependency (quick/full modes run on the main agent); CI lint scripts are dev-time only |
 | MCP deps | None (optional) |
 | Linked skills | [deep-review-loop](https://github.com/1273984347/deep-review-loop) (review) / [mem-wrap-up](https://github.com/1273984347/mem-wrap-up) (wrap-up) — works standalone |
 
@@ -117,7 +117,10 @@ This skill and MCP are **complementary, not dependent**: MCP provides external d
 
 ## Environment
 
-- Needs file read/write tools + memory dir convention (`<memory_root>` placeholder — replace per your environment).
+- **Path placeholders (read before first use)**: needs file read/write tools + memory dir convention; the skill uses `<memory_root>` placeholders — replace before running:
+  - `<memory_root>` = your agent's memory root. Common setups: TRAE → `.trae-cn/memory`; Claude Code → projects dir; WorkBuddy → `~/.workbuddy/memory/` or in-repo `.workbuddy/memory/`; if no memory system exists, create an in-repo `.agent-memory/`.
+  - **Not sure?** Run `ls` (POSIX) / `Get-ChildItem` (PowerShell) to inspect your agent environment's existing dirs, then map against the examples above; **never guess paths**. If the environment truly has no memory system, mark the step `not-applicable` — never fabricate evidence.
+- **Subagents**: no subagent/task spawning dependency — quick 3-question and full 11-dimension modes run on the main agent (see SKILL.md「无子代理平台说明」).
 - Retro dimensions reference upstream skill outputs: DRL residual risk / mem-wrap-up sediment (works standalone without them).
 
 ## Related repos

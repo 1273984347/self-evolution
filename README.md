@@ -101,8 +101,8 @@ retro 一下
 |---|---|
 | SKILL.md 版本 | 1.0.1 |
 | Agent Skills 标准 | 兼容（[agentskills.io](https://agentskills.io) 开放标准，frontmatter: name/description/license/metadata） |
-| frontmatter 校验 | 通过 `skills-ref validate`（CI 自动检查，见 [.github/workflows/validate.yml](.github/workflows/validate.yml)） |
-| 运行依赖 | 无 Python/Node 脚本；需文件读写工具 + memory 目录约定 |
+| CI 门禁 | 五步：`skills-ref validate` + `python evals/validate.py` + `python evals/run_behavior.py` + `python scripts/version-lint.py` + `python scripts/fragment-lint.py`（见 [.github/workflows/validate.yml](.github/workflows/validate.yml)） |
+| 运行依赖 | skill 运行：文件读写工具 + memory 目录约定；不依赖 subagent（快速/全面模式均由主代理执行）；CI lint 脚本仅开发期需要 |
 | MCP 依赖 | 无（可选接入） |
 | 联动 skill | [deep-review-loop](https://github.com/1273984347/deep-review-loop)（审查）/ [mem-wrap-up](https://github.com/1273984347/mem-wrap-up)（收尾）——不装也能独立运行 |
 
@@ -117,7 +117,10 @@ retro 一下
 
 ## 环境适配
 
-- 需要文件读写工具 + memory 目录约定（`<memory_root>` 占位符，按你的环境替换）。
+- **路径占位符（首次使用必读）**：需要文件读写工具 + memory 目录约定，正文使用 `<memory_root>` 占位符，执行前先替换：
+  - `<memory_root>` = agent 的 memory 根目录。常见环境：TRAE → `.trae-cn/memory`；Claude Code → projects 目录；WorkBuddy → `~/.workbuddy/memory/` 或项目内 `.workbuddy/memory/`；无现成 memory 系统时，在项目内建 `.agent-memory/` 即可。
+  - **不确定怎么填？** 先 `ls`（POSIX）/ `Get-ChildItem`（PowerShell）查看你的 agent 环境已有目录，对照上述示例再替换；**不要凭空猜路径**。若环境确无 memory 系统，相关步骤标 `not-applicable`，不编造证据。
+- **子代理**：不依赖 subagent/task 派生——快速 3 问与全面 11 维度均由主代理直接执行（见 SKILL.md「无子代理平台说明」）。
 - 复盘维度引用上游 skill 的产出：DRL residual risk / mem-wrap-up sediment（未装时不影响本 skill 独立使用）。
 
 ## 相关仓库
