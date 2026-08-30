@@ -27,14 +27,14 @@ metadata:
 | 正文写法 | 通用能力 | 常见平台实现 |
 |:---|:---|:---|
 | subagent / Task | 派独立子代理（可并行） | TRAE Task / Codex spawn_agent / Claude Code Task |
-| RunCommand | 执行 shell 命令 | PowerShell / bash / sh |
+| RunCommand | 执行 shell 命令 | PowerShell（Windows）/ bash / zsh（macOS）/ sh |
 | Grep 工具 | 文本搜索 | TRAE Grep / `rg` / `grep` / Select-String |
 | Read / Edit / Write | 文件读写 | 各平台内建文件工具 / apply_patch |
 | LS / Glob | 枚举文件与目录 | `ls` / `Get-ChildItem` / glob |
 | Skill 工具 | 调用另一个 skill | 各平台 skill 机制；无则按对应 SKILL.md 手动执行 |
 | NEEDS_CONTEXT | 子代理缺上下文的回退信号 | 通用约定：子代理报告「信息不足/上下文缺失」时按 fallback 处理；个别平台内建等价信号（如 TRAE NEEDS_CONTEXT）直接映射 |
 
-**PowerShell 示例的 POSIX 等价命令**：
+**命令示例（Windows PowerShell ↔ macOS/Linux POSIX）**：
 
 | 目的 | PowerShell | POSIX |
 |:---|:---|:---|
@@ -71,7 +71,7 @@ metadata:
 
 本 skill 涉及 memory 操作时，使用占位符路径，按你的环境替换：
 
-- `<memory_root>` = agent 的 memory 根目录（如 TRAE `.trae-cn/memory`、Claude Code 的 projects 目录，或项目内 `.agent-memory`）
+- `<memory_root>` = agent 的 memory 根目录（按平台映射：TRAE `~/.trae-cn/memory`；Claude Code `%USERPROFILE%\.claude\projects`（Windows）/ `~/Library/Application Support/Claude/projects`（macOS）；WorkBuddy `~/.workbuddy/memory/` 或项目内 `.workbuddy/memory/`；无现成 memory 系统时在项目内建 `.agent-memory/`）
 - `<project-slug>` = 当前 workspace 对应的 memory 项目目录名（执行时按当前 cwd 映射）
 - `<date>` = 当日日期目录（`YYYYMMDD`）
 - `<skills_root>` = skill 安装目录（如 `.claude/skills`、`.trae-cn/skills` 或插件目录），执行时按当前环境映射
@@ -236,7 +236,7 @@ metadata:
 
 | # | 件 | 路径 | 检查方法 |
 |:--|:---|:-----|:--------|
-| 1 | **复盘主 file** | `<memory_root>/projects/<project-slug>/<date>/retrospective.md` | RunCommand Test-Path 必存在 |
+| 1 | **复盘主 file** | `<memory_root>/projects/<project-slug>/<date>/retrospective.md` | RunCommand Test-Path 必存在（macOS/Linux：`test -f`） |
 | 2 | **project_memory 更新** | `<memory_root>/projects/<project-slug>/project_memory.md` | Grep 本次 session 关键词 ≥ 1 |
 | 3 | **user_profile 更新**（如涉及用户级偏好） | `<memory_root>/user_profile.md` | Grep 本次新增条目 ≥ 1（如适用） |
 | 4 | **experience-log 备忘段** | `<memory_root>/projects/<project-slug>/experience-log.md` | Grep 本次 session 编号 ≥ 1 |
@@ -297,7 +297,7 @@ tags: [optional]
 | 更新 skill-usage-checklist | Edit `<memory_root>/projects/<project-slug>/skill-usage-checklist.md` | 格式：`| [Skill] | [场景] | [触发词] |` |
 
 **每个动作执行前必须**：
-1. 检查目标文件是否存在（RunCommand Test-Path）
+1. 检查目标文件是否存在（RunCommand Test-Path；macOS/Linux：`test -e`）
 2. 存在 → 追加（Edit），不覆盖
 3. 不存在 → 创建（Write），带完整 frontmatter
 

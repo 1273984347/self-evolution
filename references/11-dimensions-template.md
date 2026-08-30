@@ -279,7 +279,7 @@ Why 5: [根本原因]
 
 | 类别 | 例 | 修法 | 评分 (P0/P1 × 频率) |
 |:---|:---|:---|:---:|
-| 工具链层 | Shell 引号嵌套 / Write silent skip | here-string + AppendAllText + Test-Path 验证 | P1 × N |
+| 工具链层 | Shell 引号嵌套 / Write silent skip | here-string + AppendAllText + Test-Path 验证（macOS/Linux：`test -e`） | P1 × N |
 | 协议层 | 未走 5 轮 DRL / 未 verify | 强制 deep-review-loop skill | P0 × 单 |
 | 流程层 | experience-log 漂移 / 多件套未 sync | 多件套 bundle verify | P1 × N |
 | memory 维护层 | user_profile 指针断链 / 旧路径残留 | Grep 全目录确认无残留 | P1 × N |
