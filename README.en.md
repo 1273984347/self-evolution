@@ -120,7 +120,7 @@ This skill and MCP are **complementary, not dependent**: MCP provides external d
 - **Path placeholders (read before first use)**: needs file read/write tools + memory dir convention; the skill uses `<memory_root>` placeholders — replace before running:
   - `<memory_root>` = your agent's memory root. Common setups: TRAE → `~/.trae-cn/memory`; Claude Code → `%USERPROFILE%\.claude\projects` (Windows) / `~/Library/Application Support/Claude/projects` (macOS); WorkBuddy → `~/.workbuddy/memory/` or in-repo `.workbuddy/memory/`; if no memory system exists, create an in-repo `.agent-memory/`.
   - **Not sure?** Run `ls` (macOS/Linux) / `Get-ChildItem` (Windows) to inspect your agent environment's existing dirs, then map against the examples above; **never guess paths**. If the environment truly has no memory system, mark the step `not-applicable` — never fabricate evidence.
-- **Subagents**: no subagent/task spawning dependency — quick 3-question and full 11-dimension modes run on the main agent (see SKILL.md「无子代理平台说明」).
+- **Subagents**: no subagent/task spawning dependency — quick 3-question and full 11-dimension modes run on the main agent (see the "no-subagent platforms" note in SKILL.md).
 - Retro dimensions reference upstream skill outputs: DRL residual risk / mem-wrap-up sediment (works standalone without them).
 
 ## Related repos
