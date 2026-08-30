@@ -13,6 +13,13 @@
 - description 触发词扩展：记住这个 / capture / 经验沉淀（同步 trigger-eval 3 条查询）
 - scripts/fragment-lint.py 共享片段一致性 lint + CI 接入
 
+## [1.0.1] - 2026-08-31
+
+### Changed
+- 跨平台清理：NEEDS_CONTEXT 信号通用化（去掉 TRAE 平台绑定）
+- 新增「无子代理平台说明」（本 skill 正文本就不依赖子代理，无需降级标注）
+- 四源版本同步（SKILL.md / README / CHANGELOG / marketplace.json）
+
 ## [1.0.0] - 2026-08-10 初始发布
 
 ### Added

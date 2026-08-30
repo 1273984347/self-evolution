@@ -11,7 +11,7 @@ description: >-
 license: Apache-2.0
 compatibility: Agent-agnostic. Requires file read/write tools and a memory directory convention.
 metadata:
-  version: "1.0.0"
+  version: "1.0.1"
 ---
 
 # self-evolution
@@ -32,7 +32,7 @@ metadata:
 | Read / Edit / Write | 文件读写 | 各平台内建文件工具 / apply_patch |
 | LS / Glob | 枚举文件与目录 | `ls` / `Get-ChildItem` / glob |
 | Skill 工具 | 调用另一个 skill | 各平台 skill 机制；无则按对应 SKILL.md 手动执行 |
-| NEEDS_CONTEXT | 子代理缺上下文的回退信号 | TRAE 内建；其他平台等价于子代理报「信息不足」，按 fallback 处理 |
+| NEEDS_CONTEXT | 子代理缺上下文的回退信号 | 通用约定：子代理报告「信息不足/上下文缺失」时按 fallback 处理；个别平台内建等价信号（如 TRAE NEEDS_CONTEXT）直接映射 |
 
 **PowerShell 示例的 POSIX 等价命令**：
 
@@ -44,6 +44,8 @@ metadata:
 | 超大文件 | `Get-ChildItem -Recurse \| Where-Object {$_.Length -gt 50KB}` | `find . -type f -size +50k` |
 | 软链目标 | `Get-Item LINK \| Select-Object Target` | `readlink -f LINK` / `ls -l LINK` |
 | 命中计数 | Grep output_mode=count | `grep -c PATTERN FILE` / `rg -c PATTERN FILE` |
+
+> **无子代理平台说明**：本 skill 的快速 3 问与全面 11 维度流程均由主代理直接执行，正文不依赖子代理/任务派生；映射表仅作跨平台参考，无子代理能力的平台直接按正文执行即可，无需降级标注。
 
 ## 在 skill 闭环中的位置
 

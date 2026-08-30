@@ -11,7 +11,7 @@
 [![license](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)
 [![CI](https://github.com/1273984347/self-evolution/actions/workflows/validate.yml/badge.svg)](https://github.com/1273984347/self-evolution/actions/workflows/validate.yml)
 [![skills-ref](https://img.shields.io/badge/skills--ref-passing-2ea44f)](https://agentskills.io)
-[![version](https://img.shields.io/badge/version-v1.0.0-1d76db)](https://github.com/1273984347/self-evolution/releases/latest)
+[![version](https://img.shields.io/badge/version-v1.0.1-1d76db)](https://github.com/1273984347/self-evolution/releases/latest)
 
 ## What problem it solves
 
@@ -99,7 +99,7 @@ This skill and MCP are **complementary, not dependent**: MCP provides external d
 
 | Check | Value |
 |---|---|
-| SKILL.md version | 1.0.0 |
+| SKILL.md version | 1.0.1 |
 | Agent Skills standard | Compatible ([agentskills.io](https://agentskills.io); frontmatter: name/description/license/metadata) |
 | Frontmatter validation | `skills-ref validate` (CI, see [.github/workflows/validate.yml](.github/workflows/validate.yml)) |
 | Runtime deps | No Python/Node scripts; needs file read/write + memory dir convention |

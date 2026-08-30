@@ -5,7 +5,7 @@
   },
   "metadata": {
     "description": "Retro skill: quick 3-question self-check or 11-dimension deep analysis with knowledge upgrade",
-    "version": "1.0.0"
+    "version": "1.0.1"
   },
   "plugins": [
     {
@@ -13,7 +13,9 @@
       "description": "Retro skill: quick 3-question self-check or 11-dimension deep analysis with knowledge upgrade",
       "source": "./",
       "strict": false,
-      "skills": ["./"]
+      "skills": [
+        "./"
+      ]
     }
   ]
 }
