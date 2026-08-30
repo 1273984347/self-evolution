@@ -11,7 +11,7 @@
 [![license](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)
 [![CI](https://github.com/1273984347/self-evolution/actions/workflows/validate.yml/badge.svg)](https://github.com/1273984347/self-evolution/actions/workflows/validate.yml)
 [![skills-ref](https://img.shields.io/badge/skills--ref-passing-2ea44f)](https://agentskills.io)
-[![version](https://img.shields.io/badge/version-v1.0.1-1d76db)](https://github.com/1273984347/self-evolution/releases/latest)
+[![version](https://img.shields.io/github/v/release/1273984347/self-evolution)](https://github.com/1273984347/self-evolution/releases/latest)
 
 ## What problem it solves
 
@@ -99,7 +99,7 @@ This skill and MCP are **complementary, not dependent**: MCP provides external d
 
 | Check | Value |
 |---|---|
-| SKILL.md version | 1.0.1 |
+| SKILL.md version | 1.0.2 |
 | Agent Skills standard | Compatible ([agentskills.io](https://agentskills.io); frontmatter: name/description/license/metadata) |
 | CI gate | Five steps: `skills-ref validate` + `python evals/validate.py` + `python evals/run_behavior.py` + `python scripts/version-lint.py` + `python scripts/fragment-lint.py` (see [.github/workflows/validate.yml](.github/workflows/validate.yml)) |
 | Runtime deps | Skill runtime: file read/write + memory dir convention; no subagent dependency (quick/full modes run on the main agent); CI lint scripts are dev-time only |

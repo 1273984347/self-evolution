@@ -46,18 +46,6 @@
       "should_trigger": false
     },
     {
-      "query": "帮我写个 hello world",
-      "should_trigger": false
-    },
-    {
-      "query": "解释一下什么是 HTTP 缓存",
-      "should_trigger": false
-    },
-    {
-      "query": "把这段 JSON 转成 YAML",
-      "should_trigger": false
-    },
-    {
       "query": "文档和代码对不上了，帮我收尾核对",
       "should_trigger": false
     }

@@ -11,7 +11,7 @@ description: >-
 license: Apache-2.0
 compatibility: Agent-agnostic. Requires file read/write tools and a memory directory convention.
 metadata:
-  version: "1.0.1"
+  version: "1.0.2"
 ---
 
 # self-evolution
@@ -72,6 +72,8 @@ metadata:
 本 skill 涉及 memory 操作时，使用占位符路径，按你的环境替换：
 
 - `<memory_root>` = agent 的 memory 根目录（按平台映射：TRAE `~/.trae-cn/memory`；Claude Code `%USERPROFILE%\.claude\projects`（Windows）/ `~/Library/Application Support/Claude/projects`（macOS）；WorkBuddy `~/.workbuddy/memory/` 或项目内 `.workbuddy/memory/`；无现成 memory 系统时在项目内建 `.agent-memory/`）
+
+**路径预检（首次运行强制）**：用占位符前先验证路径存在（`test -e` / `Test-Path`）；预检失败 → 中断问用户，不允许猜路径继续。**Grep 空结果判别**：Grep 0 hits 时先用 `test -e` 区分「路径错误」与「真无匹配」，无法区分时标 `unverifiable` 询问用户，不得把空结果当通过。
 - `<project-slug>` = 当前 workspace 对应的 memory 项目目录名（执行时按当前 cwd 映射）
 - `<date>` = 当日日期目录（`YYYYMMDD`）
 - `<skills_root>` = skill 安装目录（如 `.claude/skills`、`.trae-cn/skills` 或插件目录），执行时按当前环境映射
@@ -110,7 +112,7 @@ metadata:
 
 | 答案 | 动作 |
 |:---|:---|
-| 全否 | 跳过，不写文件 |
+| 全否 | 强制写一行「本次无新经验（3 问全否）」到 experience-log.md——**不允许跳过不写文件**（Unknown Unknowns 防过滤） |
 | 有发现/踩坑/缺口 | 执行写入（见下方） |
 
 **写入步骤**（直接执行，不需要调用其他 skill；格式与质量标准详见 [references/experience-capture-format.md](references/experience-capture-format.md)，激活本节时读取）：
@@ -250,9 +252,11 @@ metadata:
 
 | 条件 | 升级动作 | 执行方式 |
 |:---|:---|:---|
-| 同类经验 ≥3 次 + 跨任务 + 根因一致 | 创建 `<memory_root>/knowledge/patterns/[name].md` | **自动创建新文件** |
-| 某 pattern 成功率 >80% + 不引入新问题 | 创建 `<memory_root>/knowledge/heuristics/[name].md` | **自动创建新文件** |
+| 同类经验 ≥3 次 + 跨任务 + 根因一致 | 创建 `<memory_root>/knowledge/patterns/[name].md` | **自动创建新文件**，frontmatter 标 `review_status: pending` |
+| 某 pattern 成功率 >80% + 不引入新问题 | 创建 `<memory_root>/knowledge/heuristics/[name].md` | **自动创建新文件**，frontmatter 标 `review_status: pending`（成功率是 AI 自评，须人工核实） |
 | 某 heuristic 效果显著 | 写入 `<memory_root>/knowledge/policies/` | **需人工确认** |
+
+**复核标记**：自动创建的 pattern/heuristic 在 `review_status: pending` 状态下**只作参考候选**，不得作为权威规则驱动后续决策；人工复核通过后改 `reviewed`。
 
 **knowledge/ 文件 frontmatter 标准**：
 ```yaml
@@ -263,6 +267,7 @@ type: pattern / heuristic / policy
 id: [optional]
 level: [optional]
 tags: [optional]
+review_status: pending / reviewed
 ---
 ```
 
