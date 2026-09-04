@@ -99,12 +99,14 @@ retro 一下
 
 | 检查项 | 值 |
 |---|---|
-| SKILL.md 版本 | 1.0.2 |
+| SKILL.md 版本 | 1.0.3 |
 | Agent Skills 标准 | 兼容（[agentskills.io](https://agentskills.io) 开放标准，frontmatter: name/description/license/metadata） |
 | CI 门禁 | 五步：`skills-ref validate` + `python evals/validate.py` + `python evals/run_behavior.py` + `python scripts/version-lint.py` + `python scripts/fragment-lint.py`（见 [.github/workflows/validate.yml](.github/workflows/validate.yml)） |
-| 运行依赖 | skill 运行：文件读写工具 + memory 目录约定；不依赖 subagent（快速/全面模式均由主代理执行）；CI lint 脚本仅开发期需要 |
+| 运行依赖 | skill 运行：文件系统 + 文件读写工具 + shell（PowerShell/POSIX，路径检查用）；memory 目录约定；不依赖 subagent（快速/全面模式均由主代理执行）；无 shell 的纯 Web agent 不支持；CI lint 脚本仅开发期需要 |
 | MCP 依赖 | 无（可选接入） |
 | 联动 skill | [deep-review-loop](https://github.com/1273984347/deep-review-loop)（审查）/ [mem-wrap-up](https://github.com/1273984347/mem-wrap-up)（收尾）——不装也能独立运行 |
+
+**成本预期**：快速模式（3 问自检）几乎零开销，任务完成默认只走快速模式；全面模式 11 维度按需分层读取（先摘要后全文），token 消耗与维度数线性相关，建议周汇总或用户显式要求时再触发。
 
 **客户端兼容矩阵**：
 

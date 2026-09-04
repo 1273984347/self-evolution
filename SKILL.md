@@ -9,9 +9,9 @@ description: >-
   用户说「全面复盘/周汇总/retro/记住这个/capture/经验沉淀」或任务完成时触发（即使未点名）。
   不触发：书面产物深度复检（用 deep-review-loop）、session 收尾（用 mem-wrap-up）。
 license: Apache-2.0
-compatibility: Agent-agnostic. Requires file read/write tools and a memory directory convention.
+compatibility: Requires filesystem + file read/write tools + shell (PowerShell/POSIX) for path checks; memory directory convention. Shell-less web agents not supported.
 metadata:
-  version: "1.0.2"
+  version: "1.0.3"
 ---
 
 # self-evolution
@@ -289,12 +289,14 @@ review_status: pending / reviewed
 | **P2**（体验优化/非核心） | **等用户确认** | 列出待确认项，用户说「执行」再动 |
 | **P3**（nice-to-have） | **只记录** | 写入计划文件，不主动执行 |
 
+**自动执行边界（skill 自改除外）**：P0/P1 自动执行仅限 memory / knowledge / 文档类写入动作；「更新 Skill」（Edit 任意 SKILL.md）类动作一律按 P2 处理——等用户确认后才执行。skill 自改影响所有后续 session 的行为，且本 skill 运行时会大量读取仓库文档与 work-log，不允许无人值守通道被（可能被污染的）内容驱动自改 skill。
+
 **自动执行的动作类型 + 具体格式**：
 
 | 动作类型 | 执行方式 | 输出格式 |
 |:---|:---|:---|
 | 创建模板文件 | Write `<memory_root>/templates/[name].md` | 文件必须有 frontmatter + 使用示例 |
-| 更新 Skill | Edit `<skills_root>/<name>/SKILL.md` | 修改前先 Read，自动备份 |
+| 更新 Skill | **需用户确认**后才 Edit `<skills_root>/<name>/SKILL.md` | 不自动执行；修改前先 Read，自动备份 |
 | 追加经验条目 | Edit `<memory_root>/projects/<project-slug>/experience-log.md`（末尾追加） | 格式见模式 A |
 | 更新速查表 | Edit `<memory_root>/projects/<project-slug>/experience-quickref.md` | 格式：`[编号] [关键词] — [规则]` |
 | 写入 knowledge/patterns/ | Write `<memory_root>/knowledge/patterns/[name].md` | frontmatter + When/Pattern/Evidence/Related |
@@ -357,6 +359,7 @@ retrospective.md（分析报告）→ 引用 experience-log.md，不重复内容
 
 ## Verdict 字眼合规自检
 - 全文 Grep 禁词：`完成|PASS|12/12|闭环|OK|没问题|looks good`
+- grep 命中先剔除禁词定义行本身：meta-skill 场景下目标文件内嵌的禁词清单字符串会自匹配，必须剔除含 pattern 的定义行后重新计数；「OK」子串误报（TOKEN / BROKEN 等全大写词）同理
 - 用「数据 + 实证 + residual risk 列表」代替 verdict 字眼
 - 历史 log 文件例外（引用过往 verdict 不算违规）
 
@@ -365,7 +368,7 @@ retrospective.md（分析报告）→ 引用 experience-log.md，不重复内容
 - 11 维度完整（dim 1-11，模板见 references/），dim 9 + dim 11 必走
 - 多件套 sync verify 强制（Step 3.5）
 - 知识层升级安全规则（只创建新文件，policies 需人工确认）
-- 行动项 P0/P1 立即执行，P2 等确认，P3 只记录
+- 行动项 P0/P1 立即执行（skill 自改除外：一律等用户确认），P2 等确认，P3 只记录
 
 ## Reference
 - **设计来源**：从真实编码会话中蒸馏的双模式复盘 + 11 维度模板 + 知识层升级链路（多次「复盘未闭环 / 单一事实源漂移」教训固化）

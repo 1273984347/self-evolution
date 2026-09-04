@@ -99,12 +99,14 @@ This skill and MCP are **complementary, not dependent**: MCP provides external d
 
 | Check | Value |
 |---|---|
-| SKILL.md version | 1.0.2 |
+| SKILL.md version | 1.0.3 |
 | Agent Skills standard | Compatible ([agentskills.io](https://agentskills.io); frontmatter: name/description/license/metadata) |
 | CI gate | Five steps: `skills-ref validate` + `python evals/validate.py` + `python evals/run_behavior.py` + `python scripts/version-lint.py` + `python scripts/fragment-lint.py` (see [.github/workflows/validate.yml](.github/workflows/validate.yml)) |
-| Runtime deps | Skill runtime: file read/write + memory dir convention; no subagent dependency (quick/full modes run on the main agent); CI lint scripts are dev-time only |
+| Runtime deps | Skill runtime: filesystem + file read/write + shell (PowerShell/POSIX) for path checks; memory dir convention; no subagent dependency (quick/full modes run on the main agent); shell-less web agents not supported; CI lint scripts are dev-time only |
 | MCP deps | None (optional) |
 | Linked skills | [deep-review-loop](https://github.com/1273984347/deep-review-loop) (review) / [mem-wrap-up](https://github.com/1273984347/mem-wrap-up) (wrap-up) — works standalone |
+
+**Cost expectations**: quick mode (3-question self-check) is near-zero overhead and is the default after task completion; full mode reads 11 dimensions in layered fashion (summary first, full text on demand) with token cost scaling linearly with dimensions — trigger it for weekly summaries or on explicit user request.
 
 **Client compatibility**:
 
