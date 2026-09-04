@@ -4,6 +4,18 @@
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-09-05
+
+### Added
+- 知识层升级溯源与反例字段：pattern/heuristic frontmatter 新增 `based_on`（支撑经验 id）/ `counter_examples`（反例 id，空数组起步）/ `last_verified`（最近复用验证日期）/ `reuse_count`（复用次数）；升级门槛（≥3 次 / >80%）的判定依据必须是字段记录，不允许凭印象升级
+- 降级铁律（升级慢、降级快——防坏经验复利）：任一后续 session 出现反例 → 立即降级回 experience 并记录反例 id，禁止「记个例外但保留规则」；`counter_examples` 非空的规则权威性立即失效；降级走 memory 写入协议保证可追溯
+- 快速模式 Step 3.5 反例检查（强制）：本 session 踩坑与既有 pattern/heuristic 冲突 → 触发降级铁律；Grep knowledge/ 关键词初筛，无 knowledge/ 目录标 `not-applicable`
+- 路径预检新增首次运行回显确认：预检通过后向用户回显「平台推断 → 实际路径」映射依据，确认后再执行 memory 写入
+
+### Changed
+- Self-Disclosure 增反例检查一行
+- memory 路径约定补 Linux 显式映射（Claude Code `~/.claude/projects`），注明 `~/` 开头路径在 macOS 与 Linux 通用
+
 ## [1.0.3] - 2026-09-04
 
 ### Fixed
