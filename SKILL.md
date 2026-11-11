@@ -71,12 +71,12 @@ metadata:
 
 本 skill 涉及 memory 操作时，使用占位符路径，按你的环境替换：
 
-- `<memory_root>` = agent 的 memory 根目录（按平台映射：TRAE `~/.trae-cn/memory`；Claude Code `%USERPROFILE%\.claude\projects`（Windows）/ `~/Library/Application Support/Claude/projects`（macOS）/ `~/.claude/projects`（Linux）；WorkBuddy `~/.workbuddy/memory/` 或项目内 `.workbuddy/memory/`；`~/` 开头的路径在 macOS 与 Linux 通用；无现成 memory 系统时在项目内建 `.agent-memory/`）
+- `<memory_root>` = agent 的 memory 根目录（按平台映射：TRAE `~/.trae-cn/memory`；Claude Code `%USERPROFILE%\.claude\projects`（Windows）/ `~/Library/Application Support/Claude/projects`（macOS）/ `~/.claude/projects`（Linux）；WorkBuddy `~/.workbuddy/memory/` 或项目内 `.workbuddy/memory/`；ZCode `~/.zcode/cli/memories/projects/<project-slug>/memory/`；`~/` 开头的路径在 macOS 与 Linux 通用；无现成 memory 系统时在项目内建 `.agent-memory/`）
 
 **路径预检（首次运行强制）**：用占位符前先验证路径存在（`test -e` / `Test-Path`）；预检失败 → 中断问用户，不允许猜路径继续。**首次运行回显确认**：预检通过后向用户回显「平台推断 → 实际路径」映射依据（memory_root / project-slug / date），确认后再执行 memory 写入；project-slug 目录已存在的后续运行免重复确认。**Grep 空结果判别**：Grep 0 hits 时先用 `test -e` 区分「路径错误」与「真无匹配」，无法区分时标 `unverifiable` 询问用户，不得把空结果当通过。
 - `<project-slug>` = 当前 workspace 对应的 memory 项目目录名（执行时按当前 cwd 映射）
 - `<date>` = 当日日期目录（`YYYYMMDD`）
-- `<skills_root>` = skill 安装目录（如 `.claude/skills`、`.trae-cn/skills` 或插件目录），执行时按当前环境映射
+- `<skills_root>` = skill 安装目录（如 `~/.zcode/skills`、`.trae-cn/skills` 或插件目录），执行时按当前环境映射
 
 ## 两种模式
 
@@ -112,7 +112,7 @@ metadata:
 
 | 答案 | 动作 |
 |:---|:---|
-| 全否 | 强制写一行「本次无新经验（3 问全否）」到 experience-log.md——**不允许跳过不写文件**（Unknown Unknowns 防过滤） |
+| 全否 | 默认写一行「本次无新经验（3 问全否）」到 experience-log.md——**不允许静默跳过**（Unknown Unknowns 防过滤）。退出阀：用户明示「跳过沉淀/不要写 memory」或会话已被明确限定为一次性任务时，仅口头报告不落盘 |
 | 有发现/踩坑/缺口 | 执行写入（见下方） |
 
 **写入步骤**（直接执行，不需要调用其他 skill；格式与质量标准详见 [references/experience-capture-format.md](references/experience-capture-format.md)，激活本节时读取）：
@@ -369,7 +369,7 @@ retrospective.md（分析报告）→ 引用 experience-log.md，不重复内容
 
 - 不改变已有 Skills 的核心职责
 - 不自动删除 Skill
-- 快速复盘是完成协议的一部分，不可跳过
+- 快速复盘是完成协议的一部分，不可静默跳过（用户明示跳过时除外，见 3 问全否的退出阀）
 - 全面复盘的 dim 9（一次性工具沉淀）和 dim 11（复盘过程撞坑）必走，不可跳过
 
 ## Verdict 字眼合规自检
