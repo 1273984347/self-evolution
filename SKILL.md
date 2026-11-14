@@ -2,13 +2,14 @@
 name: self-evolution
 description: >-
   Runs retro after task completion. Quick mode = 3-question self-check. Full mode = 11-dimension deep
-  analysis with knowledge upgrade and action-item triage. Trigger when the user says "全面复盘 / 周汇总 /
-  retro / 记住这个 / capture / 经验沉淀" or after task completion — even without explicit keywords.
-  Do not trigger for deep review of written artifacts (use deep-review-loop) or session wrap-up (use mem-wrap-up).
+  analysis with knowledge upgrade and action-item triage. Trigger when the user asks for it — says
+  "全面复盘 / 周汇总 / retro / 记住这个 / capture / 经验沉淀", or when a finished task produced a reusable
+  lesson worth recording. Do not trigger for deep review of written artifacts (use deep-review-loop),
+  session wrap-up (use mem-wrap-up), or a full three-stage session close-out (use agent-session-loop).
   任务完成后的复盘 skill。快速模式 = 3 问自检；全面模式 = 11 维度深度分析 + 知识层升级 + 行动项分流。
-  用户说「全面复盘/周汇总/retro/记住这个/capture/经验沉淀」或任务完成时触发（即使未点名）。
-  不触发：书面产物深度复检（用 deep-review-loop）、session 收尾（用 mem-wrap-up）。
-license: Apache-2.0
+  用户说「复盘/全面复盘/周汇总/retro/记住这个/capture/经验沉淀/沉淀经验」，或任务完成且产出可复用经验时触发。
+  不触发：书面产物深度复检（用 deep-review-loop）、session 收尾（用 mem-wrap-up）、完整三阶段闭环（用 agent-session-loop）。
+# license: Apache-2.0 —— 已移出 frontmatter（Mavis 不识别该键）；许可证全文见 repo/LICENSE
 compatibility: Requires filesystem + file read/write tools + shell (PowerShell/POSIX) for path checks; memory directory convention. Shell-less web agents not supported.
 metadata:
   version: "1.1.0"
@@ -93,10 +94,10 @@ metadata:
 
 > **与整合版并用时**：若与 [agent-session-loop](https://github.com/1273984347/agent-session-loop)（审查→收尾→沉淀流水线）一起安装，触发与裁剪遵循整合版的场景裁剪规则（如纯调试 session 可标 `not-applicable`）；独立安装时按本节执行。
 
-### 触发条件
-- 任务标记为 completed 时
-- git commit 前
-- 不需要用户显式触发
+### 进入条件（触发判定见 frontmatter description）
+- 任务标记为 completed，且产出可复用经验（新方法 / 踩坑 / skill 缺口）
+- git commit 前（仅在有可复用经验时）
+- 不需要用户显式触发（快速模式为 3 问自检，默认静默执行）
 
 ### 执行步骤
 
