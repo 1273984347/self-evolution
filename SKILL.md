@@ -2,16 +2,17 @@
 name: self-evolution
 description: >-
   Runs retro after task completion. Quick mode = 3-question self-check. Full mode = 11-dimension deep
-  analysis with knowledge upgrade and action-item triage. Trigger when the user says "全面复盘 / 周汇总 /
-  retro / 记住这个 / capture / 经验沉淀" or after task completion — even without explicit keywords.
-  Do not trigger for deep review of written artifacts (use deep-review-loop) or session wrap-up (use mem-wrap-up).
+  analysis with knowledge upgrade and action-item triage. Trigger when the user asks for it — says
+  "全面复盘 / 周汇总 / retro / 记住这个 / capture / 经验沉淀", or when a finished task produced a reusable
+  lesson worth recording. Do not trigger for deep review of written artifacts (use deep-review-loop),
+  session wrap-up (use mem-wrap-up), or a full three-stage session close-out (use agent-session-loop).
   任务完成后的复盘 skill。快速模式 = 3 问自检；全面模式 = 11 维度深度分析 + 知识层升级 + 行动项分流。
-  用户说「全面复盘/周汇总/retro/记住这个/capture/经验沉淀」或任务完成时触发（即使未点名）。
-  不触发：书面产物深度复检（用 deep-review-loop）、session 收尾（用 mem-wrap-up）。
-license: Apache-2.0
+  用户说「复盘/全面复盘/周汇总/retro/记住这个/capture/经验沉淀/沉淀经验」，或任务完成且产出可复用经验时触发。
+  不触发：书面产物深度复检（用 deep-review-loop）、session 收尾（用 mem-wrap-up）、完整三阶段闭环（用 agent-session-loop）。
+# license: Apache-2.0 —— 已移出 frontmatter（Mavis 不识别该键）；许可证全文见 repo/LICENSE
 compatibility: Requires filesystem + file read/write tools + shell (PowerShell/POSIX) for path checks; memory directory convention. Shell-less web agents not supported.
 metadata:
-  version: "1.0.3"
+  version: "1.1.0"
 ---
 
 # self-evolution
@@ -71,12 +72,12 @@ metadata:
 
 本 skill 涉及 memory 操作时，使用占位符路径，按你的环境替换：
 
-- `<memory_root>` = agent 的 memory 根目录（按平台映射：TRAE `~/.trae-cn/memory`；Claude Code `%USERPROFILE%\.claude\projects`（Windows）/ `~/Library/Application Support/Claude/projects`（macOS）；WorkBuddy `~/.workbuddy/memory/` 或项目内 `.workbuddy/memory/`；无现成 memory 系统时在项目内建 `.agent-memory/`）
+- `<memory_root>` = agent 的 memory 根目录（按平台映射：TRAE `~/.trae-cn/memory`；Claude Code `%USERPROFILE%\.claude\projects`（Windows）/ `~/Library/Application Support/Claude/projects`（macOS）/ `~/.claude/projects`（Linux）；WorkBuddy `~/.workbuddy/memory/` 或项目内 `.workbuddy/memory/`；ZCode `~/.zcode/cli/memories/projects/<project-slug>/memory/`；`~/` 开头的路径在 macOS 与 Linux 通用；无现成 memory 系统时在项目内建 `.agent-memory/`）
 
-**路径预检（首次运行强制）**：用占位符前先验证路径存在（`test -e` / `Test-Path`）；预检失败 → 中断问用户，不允许猜路径继续。**Grep 空结果判别**：Grep 0 hits 时先用 `test -e` 区分「路径错误」与「真无匹配」，无法区分时标 `unverifiable` 询问用户，不得把空结果当通过。
+**路径预检（首次运行强制）**：用占位符前先验证路径存在（`test -e` / `Test-Path`）；预检失败 → 中断问用户，不允许猜路径继续。**首次运行回显确认**：预检通过后向用户回显「平台推断 → 实际路径」映射依据（memory_root / project-slug / date），确认后再执行 memory 写入；project-slug 目录已存在的后续运行免重复确认。**Grep 空结果判别**：Grep 0 hits 时先用 `test -e` 区分「路径错误」与「真无匹配」，无法区分时标 `unverifiable` 询问用户，不得把空结果当通过。
 - `<project-slug>` = 当前 workspace 对应的 memory 项目目录名（执行时按当前 cwd 映射）
 - `<date>` = 当日日期目录（`YYYYMMDD`）
-- `<skills_root>` = skill 安装目录（如 `.claude/skills`、`.trae-cn/skills` 或插件目录），执行时按当前环境映射
+- `<skills_root>` = skill 安装目录（如 `~/.zcode/skills`、`.trae-cn/skills` 或插件目录），执行时按当前环境映射
 
 ## 两种模式
 
@@ -93,10 +94,10 @@ metadata:
 
 > **与整合版并用时**：若与 [agent-session-loop](https://github.com/1273984347/agent-session-loop)（审查→收尾→沉淀流水线）一起安装，触发与裁剪遵循整合版的场景裁剪规则（如纯调试 session 可标 `not-applicable`）；独立安装时按本节执行。
 
-### 触发条件
-- 任务标记为 completed 时
-- git commit 前
-- 不需要用户显式触发
+### 进入条件（触发判定见 frontmatter description）
+- 任务标记为 completed，且产出可复用经验（新方法 / 踩坑 / skill 缺口）
+- git commit 前（仅在有可复用经验时）
+- 不需要用户显式触发（快速模式为 3 问自检，默认静默执行）
 
 ### 执行步骤
 
@@ -112,7 +113,7 @@ metadata:
 
 | 答案 | 动作 |
 |:---|:---|
-| 全否 | 强制写一行「本次无新经验（3 问全否）」到 experience-log.md——**不允许跳过不写文件**（Unknown Unknowns 防过滤） |
+| 全否 | 默认写一行「本次无新经验（3 问全否）」到 experience-log.md——**不允许静默跳过**（Unknown Unknowns 防过滤）。退出阀：用户明示「跳过沉淀/不要写 memory」或会话已被明确限定为一次性任务时，仅口头报告不落盘 |
 | 有发现/踩坑/缺口 | 执行写入（见下方） |
 
 **写入步骤**（直接执行，不需要调用其他 skill；格式与质量标准详见 [references/experience-capture-format.md](references/experience-capture-format.md)，激活本节时读取）：
@@ -144,6 +145,10 @@ metadata:
 **Step 3：模式升级检查**
 
 如果同类问题在 experience-log.md 中出现 ≥3 次，触发升级：提案写入 `<memory_root>/knowledge/patterns/` 或 `<memory_root>/knowledge/heuristics/`（本 step 负责）。
+
+**Step 3.5：反例检查（强制，防坏经验复利）**
+
+本 session 的踩坑若与既有 `knowledge/patterns/` / `knowledge/heuristics/` 规则冲突（按规则执行反而踩坑）→ 触发 Step 4 的「降级铁律」。Grep knowledge/ 规则关键词 vs 本 session 踩坑关键词即完成初筛；无 knowledge/ 目录 → 标 `not-applicable`，不许静默跳过。
 
 ---
 ## 模式 B：全面复盘（手动触发）
@@ -268,8 +273,19 @@ id: [optional]
 level: [optional]
 tags: [optional]
 review_status: pending / reviewed
+based_on: [experience-id, ...]   # 支撑它的 experience 条目 id
+counter_examples: []             # 反例（session/证据 id），空数组起步
+last_verified: [YYYY-MM-DD]      # 最近一次复用验证日期
+reuse_count: 0                   # 被后续 session 复用次数
 ---
 ```
+
+升级门槛（≥3 次 / >80% 成功率）的判定依据必须是上述字段的记录，不允许凭印象升级。
+
+**降级铁律（升级慢、降级快——防坏经验复利）**：
+- 任一后续 session 出现反例 → 立即把该 pattern/heuristic 降级回 experience，`counter_examples` 追加反例 id，禁止「记个例外但保留规则」
+- `counter_examples` 非空的规则 → 权威性立即失效，等同 `review_status: pending` 之前的状态（只作历史参考，不得作为依据引用）
+- 降级动作本身走 memory 写入协议（Read-before-Edit + Grep-verify-after-Edit），反例来源 session/证据 id 必须可追溯
 
 **安全规则**：
 - 只创建新文件，不覆盖已有文件
@@ -354,7 +370,7 @@ retrospective.md（分析报告）→ 引用 experience-log.md，不重复内容
 
 - 不改变已有 Skills 的核心职责
 - 不自动删除 Skill
-- 快速复盘是完成协议的一部分，不可跳过
+- 快速复盘是完成协议的一部分，不可静默跳过（用户明示跳过时除外，见 3 问全否的退出阀）
 - 全面复盘的 dim 9（一次性工具沉淀）和 dim 11（复盘过程撞坑）必走，不可跳过
 
 ## Verdict 字眼合规自检
@@ -368,6 +384,7 @@ retrospective.md（分析报告）→ 引用 experience-log.md，不重复内容
 - 11 维度完整（dim 1-11，模板见 references/），dim 9 + dim 11 必走
 - 多件套 sync verify 强制（Step 3.5）
 - 知识层升级安全规则（只创建新文件，policies 需人工确认）
+- 快速模式反例检查（Step 3.5）必走：与既有 pattern/heuristic 冲突的踩坑必须触发降级铁律
 - 行动项 P0/P1 立即执行（skill 自改除外：一律等用户确认），P2 等确认，P3 只记录
 
 ## Reference
